@@ -1,4 +1,6 @@
 Project Euler Soruları 
+
+
 Soru No 1
 Soru Başlığı: 3 ve 5’in katları
 Soru: 10'un altında 3 veya 5'in katları olan tüm doğal sayıları listelersek, 3, 5, 6 ve 9'u alırız. Bu katların toplamı 23'tür. 1000'in altındaki 3 veya 5'in tüm katlarının toplamını bulun.
@@ -100,11 +102,73 @@ for(let j = 0; j < arr.length; j++) {
 console.log(biggerProduct)
 Sonuç: 70600674
 
+Soru No 21
+Soru Başlığı: Dostane Sayılar
+Soru: D ( n ) n'nin uygun bölücülerinin ( n'ye eşit olarak n'ye bölünen n'den küçük sayılar) toplamı olarak tanımlansın . D ( a ) = b ve d ( b ) = a , burada a ≠ b ise , a ve b dostane bir çifttir ve a ve b'nin her birine dostane sayılar denir.
+Örneğin, 220'nin uygun bölenleri 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 ve 110'dur; bu nedenle d (220) = 284. 284'ün uygun bölenleri 1, 2, 4, 71 ve 142'dir; böylece d (284) = 220.
+10000'in altındaki tüm dostane sayıların toplamını değerlendirin.
+
+Kod:
+var findDivisors = function(n) {
+    var divisors = [];
+    for (var i = 1; i <= n/2; i++) {
+        if (n % i === 0) {
+            divisors.push(i);
+        }
+    }
+    return divisors;
+};
+var sum = function(a, b) {
+    return a + b;
+};
+var d = function(n) {
+    return findDivisors(n).reduce(sum, 0);
+};
+var amicableNumberSum = function(n) {
+    var amicableNumbers = [];
+    for (var a = 1; a <= n; a++) {
+        var b = d(a);
+        if (a !== b && d(b) === a) {
+            amicableNumbers[a] = true;
+            amicableNumbers[b] = true;
+        }
+    }
+    var sum = 0;
+    for (var i = 1; i <= n; i++) {
+        if (amicableNumbers[i]) {
+            sum += i;
+        }
+    }
+    return sum;
+};
+console.log(amicableNumberSum(9999));
+Sonuç: 31626
+
+Soru No 31
+Soru Başlığı: Bozuk Para Toplamları
+Soru: Birleşik Krallık'ta para birimi pound (£) ve pence (p) 'den oluşur. Genel dolaşımda sekiz madeni para vardır:
+1p, 2p, 5p, 10p, 20p, 50p, 1 £ (100p) ve 2 £ (200p).
+Aşağıdaki şekilde £ 2 kazanmanız mümkündür:
+1 × £ 1 + 1 × 50p + 2 × 20p + 1 × 5p + 1 × 2p + 3 × 1p
+Herhangi bir sayıda jeton kullanarak kaç farklı yol yapılabilir?
+Kod:
+var splitTotal = function me(total, coins, minPos) {
+    if (total === 0) return 1;
+
+    var count = 0;
+    for (var i = minPos; i < coins.length; i++) {
+        if (coins[i] > total) continue;
+        count += me(total - coins[i], coins, i);
+    }
+    return count;
+};
+console.log(splitTotal(200, [200, 100, 50, 20, 10, 5, 2, 1], 0));
+
+
+
 Soru No: 41
 Soru Başlığı: Pandigital prime
 Soru: Var olan en büyük n- basamaklı pandigital prime nedir?
-
-
 Kod: 
 var time = new Date;
 var buffer = [];
@@ -194,14 +258,12 @@ for (var u = 1; u <= max; u++) {
 for (var i = 1; i <= 8; i++) {
 generate(i);
 }
-
 for (var i = buffer.length - 1; i >= 0; i--) {
 if (isPrime(buffer[i])) {
     greatest = buffer[i];
     break;
 }
 }
-
 var time1 = new Date;
 console.log(greatest, 'took:', time1 - time, 'ms');
 
