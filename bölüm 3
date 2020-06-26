@@ -1,0 +1,69 @@
+LEETCODE SORULARI
+Soru No: 21
+Soru Başlığı: İki Sıralı Listeyi Birleştir
+Soru: Sıralı iki bağlantılı listeyi birleştir ve yeni bir liste olarak döndür. Yeni liste, ilk iki listenin düğümlerini birleştirerek yapılmalıdır.
+Giriş: 1-> 2-> 4, 1-> 3-> 4  
+Çıkış: 1-> 1-> 2-> 3-> 4-> 4
+Kod:
+const createList = (arr) => arr.reduceRight((next, val) => ({val, next}), null);
+const ar = (list, newArr = []) => {
+    if (list && Object.keys(list).length) {
+        newArr.push(list.val);
+        if (list.next) {
+            return ar(list.next, newArr);
+        }
+        return newArr;   
+    }
+    return [];
+};
+const mergeTwoLists = function(l1, l2) {
+    const arr = [...ar(l1), ...ar(l2)].sort((a, b) => a - b);
+    return createList(arr);
+};
+Sonuç: [1,1,2,3,4,4]
+
+Soru No: 41
+Soru Başlığı: İlk Olumsuz Kayıp
+Soru: Sıralanmamış bir tamsayı dizisi verildiğinde, en küçük eksik pozitif tamsayıyı bulun.
+Girdi: [1,2,0]
+Çıktı: 3
+Kod:
+var firstMissingPositive = function(nums) {
+    var newArray = [];
+    if(nums.length===0){
+        return 1;       
+     }
+    for(var i=0; i<nums.length; i++){
+        if(nums[i]<0){
+            newArray.push(0);           
+         }else{
+            newArray.push(nums[i]);  
+        }
+    }
+    for(var j=1; j<=Math.max(...newArray)+1; j++){
+      if(!newArray.includes(j)){
+        return j;
+      } 
+    }
+};
+Sonuç: 3
+
+Soru No: 141
+Soru Başlığı: Bağlantılı Liste Döngüsü
+Soru: Bağlantılı bir liste verildiğinde, içinde bir döngü olup olmadığını belirleyin.
+Verilen bağlantılı listedeki bir döngüyü postemsil etmek için kuyruğun bağlandığı bağlantılı listede konumu (0 dizinli) temsil eden bir tamsayı kullanırız. Öyleyse pos, -1bağlantılı listede herhangi bir döngü yoktur.
+Girdi: kafa = [3,2,0, -4] , konum = 1 
+Çıktı: doğru
+Açıklama: Bağlantılı listede, kuyruğun ikinci düğüme bağlandığı bir döngü vardır.
+Kod:
+var hasCycle = function(head) {
+    if (!head || !head.next) return false;
+    let cur = head;
+    while(cur) {
+        if(cur.hasVisited) return true;
+        cur.hasVisited = true;
+        cur = cur.next;
+    }
+    return false;
+};
+Sonuç: True
